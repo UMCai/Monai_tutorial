@@ -68,7 +68,8 @@ if __name__ == '__main__':
         'device': 'cuda',
         'max_epochs': 2,
         'val_interval': 1,
-        'checkpoint': '.'
+        'checkpoint': '.',
+        'loss_function': 'CrossEntropyLoss()'
     }
     
     
@@ -154,7 +155,8 @@ if __name__ == '__main__':
     device = torch.device(cfg['device'])
     print(device)
     model = DenseNet121(spatial_dims=2, in_channels=1, out_channels=num_class).to(device)
-    loss_function = CrossEntropyLoss()
+    # loss_function = CrossEntropyLoss()
+    loss_function = eval(cfg['loss_function'])
     print(loss_function)
     optimizer = torch.optim.Adam(model.parameters(), 1e-5)
     max_epochs = cfg['max_epochs']
@@ -204,11 +206,17 @@ if __name__ == '__main__':
                     )
                     y_pred = torch.cat([y_pred, model(val_images)], dim=0)
                     y = torch.cat([y, val_labels], dim=0)
+                
+                # this decollate_batch is to make the evaluation faster
+                # be casreful, this step is after cat all the related y_pred and y
+                # y_pred [num_val, 6] -> softmax
+                # y [num_val] -> one_hot
                 y_onehot = [y_trans(i) for i in decollate_batch(y, detach=False)]
                 y_pred_act = [y_pred_trans(i) for i in decollate_batch(y_pred)]
                 auc_metric(y_pred_act, y_onehot)
                 result = auc_metric.aggregate()
                 auc_metric.reset()
+                # free up the space
                 del y_pred_act, y_onehot
                 metric_values.append(result)
                 acc_value = torch.eq(y_pred.argmax(dim=1), y)
