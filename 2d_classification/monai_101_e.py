@@ -21,9 +21,9 @@ from monai.transforms import (LoadImageD,
 
 print_config()
 
-def get_my_monai_dir():
+def get_my_monai_dir(user_name = 'Shizh'):
     import os
-    path = r'C:\Users\Shizh\Data\Monai_data_dir'
+    path = rf'C:\Users\{user_name}\Data\Monai_data_dir'
     if os.path.exists(path):
         return os.path.normpath(path)
 
@@ -32,8 +32,8 @@ cfg = {
     'split_ratio':[0.5,0.25],
 
 }
-assert get_my_monai_dir() is not None, 'check data path'    
-data_dir = get_my_monai_dir()
+assert get_my_monai_dir(user_name = 'p70089067') is not None, 'check data path'    
+data_dir = get_my_monai_dir(user_name = 'p70089067')
 
 transform = Compose(
     [

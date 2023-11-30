@@ -29,9 +29,9 @@ from torch.nn import CrossEntropyLoss
 #print_config()
 
 ### load all the functions
-def get_my_monai_dir():
+def get_my_monai_dir(user_name = 'Shizh'):
     import os
-    path = r'C:\Users\Shizh\Data\Monai_data_dir'
+    path = rf'C:\Users\{user_name}\Data\Monai_data_dir'
     if os.path.exists(path):
         return os.path.normpath(path)
 
