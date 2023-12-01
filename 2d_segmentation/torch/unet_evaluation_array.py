@@ -57,8 +57,8 @@ def main(tempdir):
         strides=(2, 2, 2, 2),
         num_res_units=2,
     ).to(device)
-
-    model.load_state_dict(torch.load("best_metric_model_segmentation2d_array.pth"))
+    if os.path.exists("best_metric_model_segmentation2d_array.pth"):
+        model.load_state_dict(torch.load("best_metric_model_segmentation2d_array.pth"))
     model.eval()
     with torch.no_grad():
         for val_data in val_loader:
