@@ -128,7 +128,7 @@ def get_data(cfg, root_dir):
         cache_rate=0.0,  # not cache
         num_workers=cfg['num_workers'],
     )
-    train_loader = DataLoader(train_ds[:10], batch_size=cfg['batch_size'], shuffle=True, num_workers=cfg['num_workers'])
+    train_loader = DataLoader(train_ds, batch_size=cfg['batch_size'], shuffle=True, num_workers=cfg['num_workers'])
     val_ds = DecathlonDataset(
         root_dir=root_dir,
         task="Task01_BrainTumour",
@@ -138,7 +138,7 @@ def get_data(cfg, root_dir):
         cache_rate=0.0,
         num_workers=cfg['num_workers'],
     )
-    val_loader = DataLoader(val_ds[:10], batch_size=cfg["batch_size"], shuffle=False, num_workers=cfg['num_workers'])
+    val_loader = DataLoader(val_ds, batch_size=cfg["batch_size"], shuffle=False, num_workers=cfg['num_workers'])
     return train_ds, val_ds, train_loader, val_loader
 
 if __name__ == '__main__':
@@ -257,7 +257,7 @@ if __name__ == '__main__':
                         val_data["image"].to(device),
                         val_data["label"].to(device),
                     )
-                    val_outputs = inference(val_inputs)
+                    val_outputs = inference(val_inputs, model)
                     # val_outputs = [post_trans(i) for i in decollate_batch(val_outputs)]
                     val_outputs = post_trans(val_outputs)
                     dice_metric(y_pred=val_outputs, y=val_labels)
