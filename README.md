@@ -301,3 +301,5 @@ This tutorial shows the use cases of training and validating a 3D Latent Diffusi
 
 ##### [2D latent diffusion model](./generative/2d_ldm)
 This tutorial shows the use cases of training and validating a 2D Latent Diffusion Model.
+
+!
