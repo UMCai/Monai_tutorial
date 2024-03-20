@@ -1,6 +1,5 @@
 import os
 import shutil
-import tempfile
 import time
 import matplotlib.pyplot as plt
 from monai.apps import DecathlonDataset
